@@ -21,6 +21,7 @@ header {
     height: 70px;
     background: rgb(46, 58, 70);
 }
+
 header img {
     height: 50px;
     margin-top: 10px;
@@ -31,7 +32,7 @@ header img {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    padding: 100px 0;
+    padding: 20px 0;
 }
 
 .cd {
@@ -65,4 +66,22 @@ header img {
 
 .cd span.year {
     color: grey;
+}
+
+#checkbox {
+    display: flex;
+    justify-content: center;
+}
+
+.genre {
+    padding: 20px;
+}
+
+input {
+    cursor: pointer;
+}
+
+label {
+    color: white;
+    cursor: pointer;
 }

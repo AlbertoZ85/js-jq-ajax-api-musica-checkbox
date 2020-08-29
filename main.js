@@ -10,8 +10,8 @@ $(document).ready(function () {
 		success: function (obj) {
 			lowerCaseAttr(obj.response, 'genre');
 			populate(obj.response);
-			createOptions(obj.response);
-			$('#genre').change(filterCategory);
+			createCheckbox(obj.response);
+			$('input').change(changeCheck);
 		},
 		error: function () {
 			alert('È avvenuto un errore.');
@@ -39,21 +39,35 @@ function populate(data) {
 }
 
 // Creazione dinamica delle option del select
-function createOptions(data) {
-	$('header').after(`<select id="genre"></select>`);
+function createCheckbox(data) {
+	$('header').after(`<div id="checkbox"></div>`);
 	var allCategory = myReduce(data, 'genre');
-	allCategory.unshift('all');
 
 	for (var i = 0; i < allCategory.length; i++) {
-		$('#genre').append(`<option value="${allCategory[i]}">${capitalize(allCategory[i])}</option>`);
+		$('#checkbox').append(`
+		<div class="genre">
+        	<input type="checkbox" id="gen${i}" value="${allCategory[i]}">
+        	<label for="gen${i}">${capitalize(allCategory[i])}</label>
+    	</div>`);
 	}
 }
 
 // Visualizzazione degli oggetti in base al 'genre' selezionato
-function filterCategory() {
-	var category = $('#genre').val();
-	$('.cd').hide();
-	category != 'all' ? $('.cd.' + category).show() : $('.cd').show();
+function changeCheck() {
+	var countUnchecked = 0;
+	for (var i = 0; i < 4; i++) {
+		var thisCategory = $(`#gen${i}`);
+		if (!thisCategory.prop('checked')) {
+			$('.cd.' + thisCategory.val()).hide();
+			countUnchecked++;
+		} else {
+			$('.cd.' + thisCategory.val()).show();
+		}
+	}
+
+	if (countUnchecked == 0 || countUnchecked == 4) {
+		$('.cd').show();
+	}
 }
 
 // Creazione di un array di elementi senza ripetizioni
