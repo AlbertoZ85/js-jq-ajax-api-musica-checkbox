@@ -9,9 +9,10 @@ $(document).ready(function () {
 		method: 'GET',
 		success: function (obj) {
 			lowerCaseAttr(obj.response, 'genre');
+			var allCategories = myReduce(obj.response, 'genre');
 			populate(obj.response);
-			createCheckbox(obj.response);
-			$('input').change(changeCheck);
+			createCheckbox(allCategories);
+			$('input').change(allCategories, changeCheck);
 		},
 		error: function () {
 			alert('È avvenuto un errore.');
@@ -39,23 +40,22 @@ function populate(data) {
 }
 
 // Creazione dinamica delle option del select
-function createCheckbox(data) {
+function createCheckbox(categories) {
 	$('header').after(`<div id="checkbox"></div>`);
-	var allCategory = myReduce(data, 'genre');
 
-	for (var i = 0; i < allCategory.length; i++) {
+	for (var i = 0; i < categories.length; i++) {
 		$('#checkbox').append(`
 		<div class="genre">
-        	<input type="checkbox" id="gen${i}" value="${allCategory[i]}">
-        	<label for="gen${i}">${capitalize(allCategory[i])}</label>
+        	<input type="checkbox" id="gen${i}" value="${categories[i]}">
+        	<label for="gen${i}">${capitalize(categories[i])}</label>
     	</div>`);
 	}
 }
 
 // Visualizzazione degli oggetti in base al 'genre' selezionato
-function changeCheck() {
+function changeCheck(obj) {
 	var countUnchecked = 0;
-	for (var i = 0; i < 4; i++) {
+	for (var i = 0; i < obj.data.length; i++) {
 		var thisCategory = $(`#gen${i}`);
 		if (!thisCategory.prop('checked')) {
 			$('.cd.' + thisCategory.val()).hide();
