@@ -12,7 +12,7 @@ $(document).ready(function () {
 			var allCategories = myReduce(obj.response, 'genre');
 			populate(obj.response);
 			createCheckbox(allCategories);
-			$('input').change(allCategories, changeCheck);
+			$('input').change(allCategories, changeCheck); // eventuali argomenti da passare a una callback (changeCheck) di un metodo jQuery (change) vengono convertiti in oggetti
 		},
 		error: function () {
 			alert('È avvenuto un errore.');
@@ -54,18 +54,19 @@ function createCheckbox(categories) {
 
 // Visualizzazione degli oggetti in base al 'genre' selezionato
 function changeCheck(obj) {
-	var countUnchecked = 0;
 	for (var i = 0; i < obj.data.length; i++) {
 		var thisCategory = $(`#gen${i}`);
 		if (!thisCategory.prop('checked')) {
 			$('.cd.' + thisCategory.val()).hide();
-			countUnchecked++;
 		} else {
 			$('.cd.' + thisCategory.val()).show();
 		}
 	}
 
-	if (countUnchecked == 0 || countUnchecked == 4) {
+	var allChecked = $('input').not(':checked').length;
+	var allUnchecked = !$('input').is(':checked');
+
+	if (allChecked == 0 || allUnchecked) {
 		$('.cd').show();
 	}
 }
