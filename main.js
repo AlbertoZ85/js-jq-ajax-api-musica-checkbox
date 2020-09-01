@@ -54,21 +54,28 @@ function createCheckbox(categories) {
 
 // Visualizzazione degli oggetti in base al 'genre' selezionato
 function changeCheck(obj) {
+	var countUnchecked = 0;
 	for (var i = 0; i < obj.data.length; i++) {
 		var thisCategory = $(`#gen${i}`);
 		if (!thisCategory.prop('checked')) {
 			$('.cd.' + thisCategory.val()).hide();
+			countUnchecked++;
 		} else {
 			$('.cd.' + thisCategory.val()).show();
 		}
 	}
 
-	var allChecked = $('input').not(':checked').length;
-	var allUnchecked = !$('input').is(':checked');
-
-	if (allChecked == 0 || allUnchecked) {
+	if (countUnchecked == 0 || countUnchecked == obj.data.length) {
 		$('.cd').show();
 	}
+
+	// Variante con le condizioni sullo stato della proprietà 'checked'
+	// var allChecked = $('input').not(':checked').length;
+	// var allUnchecked = !$('input').is(':checked');
+
+	// if (allChecked == 0 || allUnchecked) {
+	// 	$('.cd').show();
+	// }
 }
 
 // Creazione di un array di elementi senza ripetizioni
